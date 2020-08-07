@@ -15,15 +15,32 @@ public class PaisService {
     @Autowired
     PaisRepository paisRepo;
 
-    public void crearPais(Pais pais){
+    public boolean crearPais(Pais pais){
+        if (existe(pais.getCodigoPais()))
+            return false;
+
+        grabar(pais);
+        return true;
+    }
+
+    public boolean existe(int CodigoPais) {
+        Pais pais = buscarPaisPorId(CodigoPais);
+
+        return pais != null;
+
+    }
+    public void grabar(Pais pais) {
+
         paisRepo.save(pais);
     }
+
+    
 
     public List<Pais> listarPaises(){
         return paisRepo.findAll();
     }
-    public Pais buscarPaisPorId(int id){
-        Optional<Pais> paisId = paisRepo.findById(id);
+    public Pais buscarPaisPorId(int codigoPais){
+        Optional<Pais> paisId = paisRepo.findById(codigoPais);
         
         if (paisId.isPresent()) {
             return paisId.get();

@@ -10,15 +10,15 @@ public class Temperatura {
     @Column(name = "temperatura_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int temperaturaId;
-    @Column(name = "pais_iso")
-    private int paisIso;
+    //@Column(name = "pais_iso")
+    //private int paisIso; Aca se estaria duplicando la columna, ya esta declarada abajo con pais
     @Column(name = "anio_temperatura")
     private int anioTemperatura;
-    private Double grados;
+    private double grados;
 	
 
     @ManyToOne
-    @JoinColumn(name = "codigo_pais", referencedColumnName = "codigo_pais")
+    @JoinColumn(name ="pais_iso", referencedColumnName = "codigo_pais")
     private Pais pais;
 
     public int getTemperaturaId() {
@@ -29,13 +29,6 @@ public class Temperatura {
         this.temperaturaId = temperaturaId;
     }
 
-    public int getPaisIso() {
-        return paisIso;
-    }
-
-    public void setPaisIso(int paisIso) {
-        this.paisIso = paisIso;
-    }
 
     public int getAnioTemperatura() {
         return anioTemperatura;
@@ -45,11 +38,11 @@ public class Temperatura {
         this.anioTemperatura = anioTemperatura;
     }
 
-    public Double getGrados() {
+    public double getGrados() {
         return grados;
     }
 
-    public void setGrados(Double grados) {
+    public void setGrados(double grados) {
         this.grados = grados;
     }
 
@@ -61,7 +54,5 @@ public class Temperatura {
         this.pais = pais;
         this.pais.getTemperaturas().add(this);
     }
- public enum ResultadoTransaccionEnum{
-     ANIO_EXISTENTE;
- }
+ 
 }

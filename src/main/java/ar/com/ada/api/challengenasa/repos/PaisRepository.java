@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
 public interface PaisRepository extends JpaRepository<Pais, Integer>{
+    
 }

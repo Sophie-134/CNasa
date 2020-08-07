@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Pais {
  
     @Id
-    @Column(name = "codigo_pais")
+    @Column(name="codigo_pais")
     private int codigoPais;
     private String nombre;
     
@@ -43,5 +43,9 @@ public class Pais {
 
     public void setTemperaturas(List<Temperatura> temperaturas) {
         this.temperaturas = temperaturas;
+    }
+    public void agregarTemperatura(Temperatura temperatura){
+        this.temperaturas.add(temperatura);
+        temperatura.setPais(this);
     }
 }

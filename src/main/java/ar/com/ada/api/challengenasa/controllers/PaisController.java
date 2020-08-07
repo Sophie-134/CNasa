@@ -30,7 +30,7 @@ public class PaisController {
     TemperaturaService tempService;
 
     @PostMapping("/paises")
-    public ResponseEntity<?> crearPais(@RequestBody PaisRequest request) {
+    public ResponseEntity<GenericResponse> crearPais(@RequestBody PaisRequest request) {
         Pais pais = new Pais();
 
         pais.setCodigoPais(request.codigoPais);
@@ -42,7 +42,7 @@ public class PaisController {
         resp.isOk = true;
         resp.id = pais.getCodigoPais();
         resp.message = "Pais creado con exito";
-        return ResponseEntity.ok(pais);
+        return ResponseEntity.ok(resp);
 
     }
 
@@ -51,15 +51,15 @@ public class PaisController {
         return ResponseEntity.ok(paisService.listarPaises());
     }
 
-    @GetMapping("/paises/{id}")
-    public ResponseEntity<Temperatura> listarPaisesPorId(@PathVariable int temperaturaId) {
+    @GetMapping("/paises/{codigoPais}")
+    public ResponseEntity<Pais> listarPaisesPorId(@PathVariable int codigoPais) {
 
-        Temperatura temperatura = tempService.buscarTemperaturaPorId(temperaturaId);
+        Pais pais = paisService.buscarPaisPorId(codigoPais);
 
-        if (temperatura == null) {
+        if (pais == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(temperatura);
+        return ResponseEntity.ok(pais);
     }
 
     /**

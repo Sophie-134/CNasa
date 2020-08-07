@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import ar.com.ada.api.challengenasa.entities.Pais;
 import ar.com.ada.api.challengenasa.entities.Temperatura;
-import ar.com.ada.api.challengenasa.entities.Temperatura.ResultadoTransaccionEnum;
+import ar.com.ada.api.challengenasa.models.response.TemperaturaMax;
 import ar.com.ada.api.challengenasa.repos.TemperaturaRepository;
 
 @Service
@@ -28,19 +28,17 @@ public class TemperaturaService {
     }
 
     public void crearTemperatura(Temperatura temperatura) {
+        //paisService.grabar(temperatura.getPais());
         tempRepo.save(temperatura);
     }
 
-    public ResultadoTransaccionEnum buscarTemperaturaPorAnio(int anio) {
+    public List<Temperatura> buscarTemperaturaPorAnio(int anio) {
         // List<Temperatura> t =new ArrayList();
         // List<Pais> pais =PaisService.ListarPaises();
-        Temperatura t = tempRepo.findByAnio(anio);
-        if (t == null) {
-            return this.buscarTemperaturaPorAnio(anio);
-        } else {
-            return ResultadoTransaccionEnum.ANIO_EXISTENTE;
+        return tempRepo.findByAnioTemperatura(anio);
+        
         }
-    }
+    
 
     public List<Temperatura> buscarPorPais(int codigoPais){
 
@@ -53,23 +51,28 @@ public class TemperaturaService {
         tempRepo.save(temperatura);
     }
 
-    /*public List<Temperatura> listarPaisPorCodigo(int codigoPais){
-        List<Temperatura> temps = new ArrayList();
-        List<Pais> paises = paisService.listarPaises();
+    public TemperaturaMax buscarTempMax(int codigoPais) {
 
-        for (Pais p : paises) {
+        TemperaturaMax tempMax = new TemperaturaMax();
 
-            for (Temperatura t : p.getTemperaturas()) {
+        tempMax.temperaturaMaxima = 0.00;
 
-                if (t.getAnioTemperatura().equals(codigoPais)) {
+        List<Temperatura> temperaturas = new ArrayList<>();
+        temperaturas = buscarPorPais(codigoPais);
 
-                    tempsAnio.add(t);
-                }
+        for (int i = 0; i < temperaturas.size(); i++) {
+
+            if (temperaturas.get(i).getGrados() > tempMax.temperaturaMaxima) {
+
+                tempMax.nombrePais = temperaturas.get(i).getPais().getNombre();
+                tempMax.temperaturaMaxima = temperaturas.get(i).getGrados();
+                tempMax.anio = temperaturas.get(i).getAnioTemperatura();
+                
             }
         }
 
-        return tempsAnio;
-}return null;
+        return tempMax;
 
-    }*/
+    }
+    
 }
